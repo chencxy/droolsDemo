@@ -1,0 +1,41 @@
+package cxyTest
+import java.util.HashMap
+import java.math.BigDecimal
+import java.util.Date
+import java.util.ArrayList
+import java.util.List
+import java.lang.Double
+import java.lang.Number
+import com.cxy.demo.droolsDemo.pojo.SimpleKV
+import com.cxy.demo.droolsDemo.pojo.SimpleRisk
+
+function boolean print(Object obj){
+	System.out.println(obj);
+	return true;
+}
+
+rule "My First Rule"
+	no-loop true
+	dialect "mvel" 
+	salience 0
+    when
+        SimpleKV(
+            $value : this["key"]
+        );
+        eval(print($value))
+    //eval(String.valueOf($value).length > 5)
+    then
+        insert(new SimpleRisk("a simple risk", 10, "your input value is too long"))
+end
+
+query "list all objects from working memory"
+object : Object()
+end
+
+query "list all SimpleKV from working memory"
+item : SimpleKV()
+end
+
+query "list all risks from working memory"
+risk : SimpleRisk()
+end
